@@ -6,7 +6,15 @@
 package mx.itson.catrina.ui;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import javax.swing.JFileChooser;
+import javax.swing.table.DefaultTableModel;
+import mx.itson.catrina.entidades.Estado;
+import mx.itson.catrina.entidades.Movimiento;
+import mx.itson.catrina.enumeradores.Tipo;
 
 /**
  *
@@ -44,7 +52,7 @@ public class Main extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tblResumen = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
-        tblMovimientos = new javax.swing.JTable();
+        tblMovimiento = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         lblFinal = new javax.swing.JLabel();
@@ -116,10 +124,10 @@ public class Main extends javax.swing.JFrame {
 
         tblUsuario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Nombre"},
-                {"RFC"},
-                {"Direccion"},
-                {"Ciudad"},
+                {"Nombre:"},
+                {"RFC:"},
+                {"Direccion:"},
+                {"Ciudad:"},
                 {"Codigo Postal"}
             },
             new String [] {
@@ -130,16 +138,16 @@ public class Main extends javax.swing.JFrame {
 
         tblCuenta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"CUENTA", null},
-                {"CLABE", null},
-                {"MONEDA", null}
+                {"Cuenta:"},
+                {"CLABE:"},
+                {"Divisa:"}
             },
             new String [] {
-                "Cuenta contable", ""
+                "Cuenta contable"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false
+                false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -150,17 +158,17 @@ public class Main extends javax.swing.JFrame {
 
         tblResumen.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Saldo Inicial (anterior)", null},
-                {"Depositos", null},
-                {"Retiros", null},
-                {"Saldo Final", null}
+                {"Saldo Inicial (anterior):"},
+                {"Depositos:"},
+                {"Retiros:"},
+                {"Saldo Final"}
             },
             new String [] {
-                "Resumen del Periodo", ""
+                "Resumen del Periodo"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, false
+                false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -169,7 +177,7 @@ public class Main extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(tblResumen);
 
-        tblMovimientos.setModel(new javax.swing.table.DefaultTableModel(
+        tblMovimiento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -193,7 +201,7 @@ public class Main extends javax.swing.JFrame {
                 "Fecha", "Deposito", "Retiro", "Subtotal"
             }
         ));
-        jScrollPane4.setViewportView(tblMovimientos);
+        jScrollPane4.setViewportView(tblMovimiento);
 
         jLabel3.setText("Detalle de Movimientos");
 
@@ -285,8 +293,63 @@ public class Main extends javax.swing.JFrame {
             filechooser.setCurrentDirectory(new File (System.getProperty("user.home")));
             if (filechooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
                 File archivo = filechooser.getSelectedFile();
-            }}
-         catch(Exception ex){
+            
+                byte archivoByte[] = Files.readAllBytes(archivo.toPath());
+                
+                String contenido = new String(archivoByte, StandardCharsets.UTF_8);
+                
+                Estado estado = new Estado().deserializar(contenido);
+                
+                Movimiento movimiento = new Movimiento();
+                
+                
+                DateFormat formatoHorario = new SimpleDateFormat("dd/MM/yyyy");
+                
+                DefaultTableModel modelUsuario = (DefaultTableModel) tblUsuario.getModel();
+                modelUsuario.setRowCount(0);
+                
+                DefaultTableModel modelCuenta = (DefaultTableModel) tblCuenta.getModel();
+                modelCuenta.setRowCount(0);
+                
+                DefaultTableModel modelMovimiento = (DefaultTableModel) tblMovimiento.getModel();
+                modelMovimiento.setRowCount(0);
+                
+                DefaultTableModel modelResumen = (DefaultTableModel) tblResumen.getModel();
+                modelResumen.setRowCount(0);
+                
+                modelUsuario.addRow(new Object[] {"Nombre:  " + estado.getCliente().getNombre()});
+                modelUsuario.addRow(new Object[] {"RFC:  " + estado.getCliente().getRfc()});
+                modelUsuario.addRow(new Object[] {"Domicilio: " + estado.getCliente().getDomicilio()});
+                modelUsuario.addRow(new Object[] {"Ciudad:  " +estado.getCliente().getCiudad()});
+                modelUsuario.addRow(new Object[] {"Codigo Postal:  " + estado.getCliente().getCp()});
+                
+                modelCuenta.addRow(new Object[] {"Cuenta:  " + estado.getCuenta()});
+                modelCuenta.addRow(new Object[] {"CLABE:  " + estado.getClabe()});
+                modelCuenta.addRow(new Object[] {"Divisa:  " + estado.getMoneda()});
+                
+                
+            estado.getMovimientos().sort((mov1, mov2) -> mov1.getFecha().compareTo(mov2.getFecha()));       
+                for (Movimiento m : estado.getMovimientos()){
+                    if(m.getMovimiento() == Tipo.DEPOSITO){
+                        modelMovimiento.addRow(new Object[] {
+                            formatoHorario.format(m.getFecha()), 
+                            m.getDescripcion(), 
+                            m.getCantidad(),
+                            " "
+                        }); 
+                    }else if (m.getMovimiento() == Tipo.RETIRO){
+                        modelMovimiento.addRow(new Object[] {
+                            formatoHorario.format(m.getFecha()),  
+                            m.getDescripcion(),
+                            m.getCantidad(),
+                            " "
+                        }); 
+                    }
+                    
+                }
+                
+            }
+         }catch(Exception ex){
              System.err.println("Ocurrio un error " + ex.getMessage());
         }
     }//GEN-LAST:event_btnSeleccionarActionPerformed
@@ -342,7 +405,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel lblFinal;
     private javax.swing.JTable tblCuenta;
-    private javax.swing.JTable tblMovimientos;
+    private javax.swing.JTable tblMovimiento;
     private javax.swing.JTable tblResumen;
     private javax.swing.JTable tblUsuario;
     // End of variables declaration//GEN-END:variables

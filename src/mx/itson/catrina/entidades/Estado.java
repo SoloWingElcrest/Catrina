@@ -12,6 +12,7 @@ public class Estado {
     private String cuenta;
     private String clabe;
     private String moneda;
+    private String mes;
     private Cliente cliente;
     private List<Movimiento> movimientos;
    
@@ -24,6 +25,22 @@ public class Estado {
         }
         return catrina;
      }
+      
+        public double suma(List<Movimiento> listaMovimientos){
+            double resultado = 0;
+            
+            for(Movimiento m : listaMovimientos){
+                    switch(m.getMovimiento()){
+                        
+                        case DEPOSITO : resultado += m.getCantidad();
+                        
+                        case RETIRO : resultado -= m.getCantidad();
+                        
+                        default : throw new AssertionError();
+                    }
+                }
+        return resultado;
+}
      
     /**
      * @return the cuenta

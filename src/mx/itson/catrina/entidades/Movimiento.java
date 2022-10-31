@@ -2,7 +2,7 @@
 package mx.itson.catrina.entidades;
 
 import java.util.Date;
-import mx.itson.catrina.enumeradores.TipoMovimiento;
+import mx.itson.catrina.enumeradores.Tipo;
 
 /**
  *
@@ -13,7 +13,7 @@ public class Movimiento {
     private double cantidad;
     private Date fecha;
     private String descripcion;
-    private TipoMovimiento movimiento;
+    private Tipo movimiento;
     
     /**
      * @return the descripcion
@@ -32,14 +32,14 @@ public class Movimiento {
     /**
      * @return the movimiento
      */
-    public TipoMovimiento getMovimiento() {
+    public Tipo getMovimiento() {
         return movimiento;
     }
 
     /**
      * @param movimiento the movimiento to set
      */
-    public void setMovimiento(TipoMovimiento movimiento) {
+    public void setMovimiento(Tipo movimiento) {
         this.movimiento = movimiento;
     }
     

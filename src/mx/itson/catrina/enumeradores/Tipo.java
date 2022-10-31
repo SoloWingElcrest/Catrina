@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  *
  * @author Xylan
  */
-public enum TipoMovimiento {
+public enum Tipo {
     @SerializedName("1")
     DEPOSITO,
     @SerializedName("2")
