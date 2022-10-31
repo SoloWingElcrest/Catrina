@@ -330,14 +330,14 @@ public class Main extends javax.swing.JFrame {
                 
             estado.getMovimientos().sort((mov1, mov2) -> mov1.getFecha().compareTo(mov2.getFecha()));       
                 for (Movimiento m : estado.getMovimientos()){
-                    if(m.getMovimiento() == Tipo.DEPOSITO){
+                    if(m.getTipo() == Tipo.DEPOSITO){
                         modelMovimiento.addRow(new Object[] {
                             formatoHorario.format(m.getFecha()), 
                             m.getDescripcion(), 
                             m.getCantidad(),
                             " "
                         }); 
-                    }else if (m.getMovimiento() == Tipo.RETIRO){
+                    }else if (m.getTipo() == Tipo.RETIRO){
                         modelMovimiento.addRow(new Object[] {
                             formatoHorario.format(m.getFecha()),  
                             m.getDescripcion(),

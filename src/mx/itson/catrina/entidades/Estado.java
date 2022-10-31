@@ -30,7 +30,7 @@ public class Estado {
             double resultado = 0;
             
             for(Movimiento m : listaMovimientos){
-                    switch(m.getMovimiento()){
+                    switch(m.getTipo()){
                         
                         case DEPOSITO : resultado += m.getCantidad();
                         

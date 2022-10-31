@@ -13,7 +13,7 @@ public class Movimiento {
     private double cantidad;
     private Date fecha;
     private String descripcion;
-    private Tipo movimiento;
+    private Tipo tipo;
     
     /**
      * @return the descripcion
@@ -30,17 +30,17 @@ public class Movimiento {
     }
 
     /**
-     * @return the movimiento
+     * @return the tipo
      */
-    public Tipo getMovimiento() {
-        return movimiento;
+    public Tipo getTipo() {
+        return tipo;
     }
 
     /**
-     * @param movimiento the movimiento to set
+     * @param tipo the Tipo to set
      */
-    public void setMovimiento(Tipo movimiento) {
-        this.movimiento = movimiento;
+    public void setTipo(Tipo movimiento) {
+        this.tipo = movimiento;
     }
     
 
@@ -52,7 +52,7 @@ public class Movimiento {
     }
 
     /**
-     * @param monto the monto to set
+     * @param cantidad the cantidad to set
      */
     public void setCantidad(double cantidad) {
         this.cantidad = cantidad;
