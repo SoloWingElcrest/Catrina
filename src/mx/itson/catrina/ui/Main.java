@@ -497,7 +497,7 @@ public class Main extends javax.swing.JFrame {
                 }
                 Estado e = new Estado().deserializar(caracteres);
                 
-                //Establecimiento de valor inicial... una disculpa no pude dar para mas.
+                //Establecimiento de valor inicial.
                 
                 String saldoInicial = formatoMoneda.format(20000);
 
