@@ -5,7 +5,7 @@ import java.util.Date;
 import mx.itson.catrina.enumeradores.Tipo;
 
 /**
- *
+ * Establece las propiedades de la entidad Movimiento.
  * @author Xylan
  */
 public class Movimiento {

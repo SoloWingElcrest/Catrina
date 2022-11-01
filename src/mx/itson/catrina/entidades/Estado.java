@@ -9,7 +9,7 @@ import mx.itson.catrina.enumeradores.Tipo;
 import mx.itson.catrina.ui.Main;
 
 /**
- *
+ * Establece las propiedades conjuntas de la entidad Estado.
  * @author Xylan
  */
 public class Estado {

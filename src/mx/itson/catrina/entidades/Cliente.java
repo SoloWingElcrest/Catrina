@@ -2,7 +2,7 @@
 package mx.itson.catrina.entidades;
 
 /**
- *
+ * Establece los parametros de la entidad Cliente.
  * @author Xylan
  */
 public class Cliente {

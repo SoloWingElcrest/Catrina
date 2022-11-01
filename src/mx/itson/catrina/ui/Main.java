@@ -26,7 +26,7 @@ import mx.itson.catrina.enumeradores.Tipo;
  */
 public class Main extends javax.swing.JFrame {
 
-    /**
+    /**Establece los datos en pantalla
      * Creates new form Main
      */
     public Main() {
