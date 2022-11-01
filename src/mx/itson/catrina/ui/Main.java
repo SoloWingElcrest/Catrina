@@ -98,7 +98,7 @@ public class Main extends javax.swing.JFrame {
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblNombreUsuario)
                             .addComponent(jLabel6))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -302,7 +302,7 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(153, Short.MAX_VALUE))
+                        .addContainerGap(150, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel4)
@@ -365,9 +365,9 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -393,11 +393,11 @@ public class Main extends javax.swing.JFrame {
             
                 byte archivoByte[] = Files.readAllBytes(archivo.toPath());
                 
-                String contenido = new String(archivoByte, StandardCharsets.UTF_8);
+                String caracteres = new String(archivoByte, StandardCharsets.UTF_8);
                 
                 Movimiento movimiento = new Movimiento();
                 
-                Estado estado = new Estado().deserializar(contenido);
+                Estado estado = new Estado().deserializar(caracteres);
                 
                 Locale local = new Locale("es", "MX");
                 NumberFormat formatoMoneda = NumberFormat.getCurrencyInstance(local);
@@ -417,6 +417,8 @@ public class Main extends javax.swing.JFrame {
                 DefaultTableModel modelResumen = (DefaultTableModel) tblResumen.getModel();
                 modelResumen.setRowCount(0);
                 
+                
+                
                 modelUsuario.addRow(new Object[] {
                 "Nombre:  " + estado.getCliente().getNombre()
                 });
@@ -433,6 +435,7 @@ public class Main extends javax.swing.JFrame {
                 "Codigo Postal:  " + estado.getCliente().getCp()
                 });
                 
+                
                 modelCuenta.addRow(new Object[] {
                 "Cuenta:  " + estado.getCuenta()
                 });
@@ -444,6 +447,7 @@ public class Main extends javax.swing.JFrame {
                 });
                 
 
+                
                 estado.getMovimientos().sort((mov1, mov2) -> mov1.getFecha().compareTo(mov2.getFecha()));       
                 for (Movimiento mov : estado.getMovimientos()){
                     if(mov.getTipo() == Tipo.DEPOSITO){
@@ -479,7 +483,7 @@ public class Main extends javax.swing.JFrame {
                     }
                     
                 }
-                Estado e = new Estado().deserializar(contenido);
+                Estado e = new Estado().deserializar(caracteres);
 
                 String saldoInicial = formatoMoneda.format(20000);
 
