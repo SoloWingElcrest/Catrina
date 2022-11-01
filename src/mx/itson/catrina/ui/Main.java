@@ -26,7 +26,7 @@ import mx.itson.catrina.enumeradores.Tipo;
  */
 public class Main extends javax.swing.JFrame {
 
-    /**Establece los datos en pantalla
+    /**Establece los datos en pantalla.
      * Creates new form Main
      */
     public Main() {
@@ -463,10 +463,9 @@ public class Main extends javax.swing.JFrame {
                 for (Movimiento mov : estado.getMovimientos()){
                     if(mov.getTipo() == Tipo.DEPOSITO){
                         double subDeposito = 0;
-                        double subRetiro = 0;
                         double subTotal = 0;
                         subDeposito += mov.getCantidad();
-                        subTotal = subDeposito - subRetiro;
+                        subTotal = subDeposito;
                         
                         modelMovimiento.addRow(new Object[] {
                             formatoHorario.format(mov.getFecha()), 
@@ -477,12 +476,10 @@ public class Main extends javax.swing.JFrame {
                         }); 
                 //Llena la tabla Movimientos pera los tipo Retiro.
                     }else if (mov.getTipo() == Tipo.RETIRO){
-
-                        double subDeposito = 0;
                         double subRetiro = 0;
                         double subTotal = 0;
                         subRetiro += mov.getCantidad();
-                        subTotal = subDeposito - subRetiro;
+                        subTotal = - subRetiro;
                         
                         modelMovimiento.addRow(new Object[] {
                             formatoHorario.format(mov.getFecha()),  
@@ -503,10 +500,14 @@ public class Main extends javax.swing.JFrame {
 
                 //Llena la tabla Resumen con los datos adquiridos anteriormente.
                 
-                modelResumen.addRow(new Object[]{"Saldo Inicial (Anterior):  " + saldoInicial});
-                modelResumen.addRow(new Object[]{"Depositos:  " + formatoMoneda.format(e.sumaDeposito(e.getMovimientos()))});
-                modelResumen.addRow(new Object[]{"Retiros:  " + formatoMoneda.format(e.sumaRetiro(e.getMovimientos()))});
-                modelResumen.addRow(new Object[]{"Saldo Final:  " + formatoMoneda.format(e.operacion(movimiento))});
+                modelResumen.addRow(new Object[]
+                {"Saldo Inicial (Anterior):  " + saldoInicial});
+                modelResumen.addRow(new Object[]
+                {"Depositos:  " + formatoMoneda.format(e.sumaDeposito(e.getMovimientos()))});
+                modelResumen.addRow(new Object[]
+                {"Retiros:  " + formatoMoneda.format(e.sumaRetiro(e.getMovimientos()))});
+                modelResumen.addRow(new Object[]
+                {"Saldo Final:  " + formatoMoneda.format(e.operacion(movimiento))});
 
                 //Se obtiene el valor de saldo final en el label.
                 
