@@ -6,6 +6,7 @@ import com.google.gson.JsonSyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import mx.itson.catrina.enumeradores.Tipo;
+import mx.itson.catrina.ui.Main;
 
 /**
  *
@@ -19,16 +20,25 @@ public class Estado {
     private Cliente cliente;
     private List<Movimiento> movimientos;
    
+    /**
+     * Convierte los datos Json a datos tipo objeto.
+     * @param json es el Json a convertir
+     * @return el objeto catrina con los datos del json.
+     */
      public Estado deserializar(String json){
-        Estado catrina = new Estado();
+        Estado estado = new Estado();
         try{
-            catrina = new Gson().fromJson(json, Estado.class);
+            estado = new Gson().fromJson(json, Estado.class);
         }catch(JsonSyntaxException ex){
             System.err.println("Ocurrio un error" + ex.getMessage());
         }
-        return catrina;
+        return estado;
      }
- 
+ /**
+  * Establece el valor para la suma de valores deposito.
+  * @param listDeposito es la lista que almacena los datos tipo deposito.
+  * @return un valor total de la suma de todos los valores deposito.
+  */
      public double sumaDeposito(List<Movimiento> listDeposito){
          double totalDeposito = 0;
          
@@ -39,23 +49,33 @@ public class Estado {
             }
         return totalDeposito;
         }
-     
-     public double sumaRetiro(List<Movimiento> listaRetiro){
+     /**
+      * Establece el valor para la suma de valores retiro.
+      * @param listRetiro es la lista que almacena los datos de tipo retiro.
+      * @return un valor total de la suma de todos los valores deposito.
+      */
+     public double sumaRetiro(List<Movimiento> listRetiro){
           double totalRetiro = 0;
             
-          for(Movimiento mov : listaRetiro){
+          for(Movimiento mov : listRetiro){
           if(mov.getTipo() == Tipo.RETIRO){
             totalRetiro += mov.getCantidad();
             }
             }
         return totalRetiro;
         }
-    public double suma(Movimiento suma){
+     
+     /**
+      * La operacion para calcular el saldo final entre los depositos y los retiros.
+      * @param operacion la variable que almacena el metodo.
+      * @return el resultado final de la operacion. 
+      */
+    public double operacion(Movimiento operacion){
         double resultado = sumaDeposito(movimientos) - sumaRetiro(movimientos);
         return resultado;
     }
-     
-  
+
+      
     /**
      * @return the cuenta
      */

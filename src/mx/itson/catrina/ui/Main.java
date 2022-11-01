@@ -280,6 +280,7 @@ public class Main extends javax.swing.JFrame {
         });
         jScrollPane4.setViewportView(tblMovimiento);
 
+        jLabel3.setForeground(new java.awt.Color(204, 0, 51));
         jLabel3.setText("Detalle de Movimientos");
 
         jLabel4.setForeground(new java.awt.Color(204, 0, 0));
@@ -399,12 +400,16 @@ public class Main extends javax.swing.JFrame {
                 
                 Estado estado = new Estado().deserializar(caracteres);
                 
+                //Formatos.
+                
                 Locale local = new Locale("es", "MX");
                 NumberFormat formatoMoneda = NumberFormat.getCurrencyInstance(local);
                 DateFormat formatoHorario = new SimpleDateFormat("dd/MM/yyyy");
                 
                 lblNombreUsuario.setText(estado.getCliente().getNombre());
                  
+                //Modelos de las tablas.
+                
                 DefaultTableModel modelUsuario = (DefaultTableModel) tblUsuario.getModel();
                 modelUsuario.setRowCount(0);
                 
@@ -418,6 +423,7 @@ public class Main extends javax.swing.JFrame {
                 modelResumen.setRowCount(0);
                 
                 
+                //Llena la tabla usuario.
                 
                 modelUsuario.addRow(new Object[] {
                 "Nombre:  " + estado.getCliente().getNombre()
@@ -435,6 +441,7 @@ public class Main extends javax.swing.JFrame {
                 "Codigo Postal:  " + estado.getCliente().getCp()
                 });
                 
+                //Llena la tabla cuenta.
                 
                 modelCuenta.addRow(new Object[] {
                 "Cuenta:  " + estado.getCuenta()
@@ -447,8 +454,12 @@ public class Main extends javax.swing.JFrame {
                 });
                 
 
+                //Ordenador de fechas
                 
                 estado.getMovimientos().sort((mov1, mov2) -> mov1.getFecha().compareTo(mov2.getFecha()));       
+
+                //Llena la tabla Movimientos pera los tipo Deposito.
+                
                 for (Movimiento mov : estado.getMovimientos()){
                     if(mov.getTipo() == Tipo.DEPOSITO){
                         double subDeposito = 0;
@@ -464,6 +475,7 @@ public class Main extends javax.swing.JFrame {
                             " ",
                             formatoMoneda.format(subTotal)
                         }); 
+                //Llena la tabla Movimientos pera los tipo Retiro.
                     }else if (mov.getTipo() == Tipo.RETIRO){
 
                         double subDeposito = 0;
@@ -484,15 +496,21 @@ public class Main extends javax.swing.JFrame {
                     
                 }
                 Estado e = new Estado().deserializar(caracteres);
-
+                
+                //Establecimiento de valor inicial... una disculpa no pude dar para mas.
+                
                 String saldoInicial = formatoMoneda.format(20000);
 
+                //Llena la tabla Resumen con los datos adquiridos anteriormente.
+                
                 modelResumen.addRow(new Object[]{"Saldo Inicial (Anterior):  " + saldoInicial});
                 modelResumen.addRow(new Object[]{"Depositos:  " + formatoMoneda.format(e.sumaDeposito(e.getMovimientos()))});
                 modelResumen.addRow(new Object[]{"Retiros:  " + formatoMoneda.format(e.sumaRetiro(e.getMovimientos()))});
-                modelResumen.addRow(new Object[]{"Saldo Final:  " + formatoMoneda.format(e.suma(movimiento))});
+                modelResumen.addRow(new Object[]{"Saldo Final:  " + formatoMoneda.format(e.operacion(movimiento))});
 
-                String subTotalFinal = String.valueOf(formatoMoneda.format(e.suma(movimiento)));
+                //Se obtiene el valor de saldo final en el label.
+                
+                String subTotalFinal = String.valueOf(formatoMoneda.format(e.operacion(movimiento)));
 
                 lblSaldoFinal.setText(subTotalFinal);
 
