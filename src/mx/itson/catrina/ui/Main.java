@@ -5,11 +5,15 @@
  */
 package mx.itson.catrina.ui;
 
+
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
 import mx.itson.catrina.entidades.Estado;
@@ -27,6 +31,8 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
+           setIconImage(new ImageIcon(getClass().getResource("/mx/itson/catrina/imagenes/Grunder icon.png")).getImage());
+     
     }
 
     /**
@@ -60,18 +66,22 @@ public class Main extends javax.swing.JFrame {
         tblMovimiento = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        lblFinal = new javax.swing.JLabel();
+        lblSaldoFinal = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Gründer Bank Interface");
+        setIconImages(null);
 
         jPanel4.setBackground(new java.awt.Color(204, 0, 0));
         jPanel4.setForeground(new java.awt.Color(255, 0, 0));
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mx/itson/catrina/imagenes/4971983890665177088_1 Mini.png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mx/itson/catrina/imagenes/4971983890665177088_1 Mini_1.png"))); // NOI18N
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Bienvenido");
 
+        lblNombreUsuario.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         lblNombreUsuario.setForeground(new java.awt.Color(255, 255, 255));
         lblNombreUsuario.setText("Usuario");
 
@@ -81,14 +91,14 @@ public class Main extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(lblNombreUsuario))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel5)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblNombreUsuario)
+                            .addComponent(jLabel6))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,6 +121,11 @@ public class Main extends javax.swing.JFrame {
         jLabel1.setText("Seleccione el mes");
 
         cbxMes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
+        cbxMes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxMesActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -270,8 +285,8 @@ public class Main extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(204, 0, 0));
         jLabel4.setText("Saldo final del Periodo:");
 
-        lblFinal.setForeground(new java.awt.Color(204, 0, 0));
-        lblFinal.setText("$");
+        lblSaldoFinal.setForeground(new java.awt.Color(204, 0, 0));
+        lblSaldoFinal.setText("$");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -287,12 +302,12 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(164, Short.MAX_VALUE))
+                        .addContainerGap(153, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblFinal)
+                        .addComponent(lblSaldoFinal)
                         .addGap(85, 85, 85))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -316,7 +331,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(lblFinal))
+                    .addComponent(lblSaldoFinal))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -343,7 +358,7 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -364,6 +379,10 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
+
+
+    
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
         // TODO add your handling code here:
          try{
@@ -376,11 +395,12 @@ public class Main extends javax.swing.JFrame {
                 
                 String contenido = new String(archivoByte, StandardCharsets.UTF_8);
                 
-                Estado estado = new Estado().deserializar(contenido);
-                
                 Movimiento movimiento = new Movimiento();
                 
+                Estado estado = new Estado().deserializar(contenido);
                 
+                Locale local = new Locale("es", "MX");
+                NumberFormat formatoMoneda = NumberFormat.getCurrencyInstance(local);
                 DateFormat formatoHorario = new SimpleDateFormat("dd/MM/yyyy");
                 
                 lblNombreUsuario.setText(estado.getCliente().getNombre());
@@ -423,33 +443,64 @@ public class Main extends javax.swing.JFrame {
                 "Divisa:  " + estado.getMoneda()
                 });
                 
-                
+
                 estado.getMovimientos().sort((mov1, mov2) -> mov1.getFecha().compareTo(mov2.getFecha()));       
-                for (Movimiento m : estado.getMovimientos()){
-                    if(m.getTipo() == Tipo.DEPOSITO){
+                for (Movimiento mov : estado.getMovimientos()){
+                    if(mov.getTipo() == Tipo.DEPOSITO){
+                        double subDeposito = 0;
+                        double subRetiro = 0;
+                        double subTotal = 0;
+                        subDeposito += mov.getCantidad();
+                        subTotal = subDeposito - subRetiro;
+                        
                         modelMovimiento.addRow(new Object[] {
-                            formatoHorario.format(m.getFecha()), 
-                            m.getDescripcion(), 
-                            m.getCantidad(),
-                            " "
+                            formatoHorario.format(mov.getFecha()), 
+                            mov.getDescripcion(), 
+                            mov.getCantidad(),
+                            " ",
+                            formatoMoneda.format(subTotal)
                         }); 
-                    }else if (m.getTipo() == Tipo.RETIRO){
+                    }else if (mov.getTipo() == Tipo.RETIRO){
+
+                        double subDeposito = 0;
+                        double subRetiro = 0;
+                        double subTotal = 0;
+                        subRetiro += mov.getCantidad();
+                        subTotal = subDeposito - subRetiro;
+                        
                         modelMovimiento.addRow(new Object[] {
-                            formatoHorario.format(m.getFecha()),  
-                            m.getDescripcion(),
+                            formatoHorario.format(mov.getFecha()),  
+                            mov.getDescripcion(),
                             "",
-                            m.getCantidad()
+                            mov.getCantidad(),
+                            formatoMoneda.format(subTotal)
                             
                         }); 
                     }
                     
                 }
-                
+                Estado e = new Estado().deserializar(contenido);
+
+                String saldoInicial = formatoMoneda.format(20000);
+
+                modelResumen.addRow(new Object[]{"Saldo Inicial (Anterior):  " + saldoInicial});
+                modelResumen.addRow(new Object[]{"Depositos:  " + formatoMoneda.format(e.sumaDeposito(e.getMovimientos()))});
+                modelResumen.addRow(new Object[]{"Retiros:  " + formatoMoneda.format(e.sumaRetiro(e.getMovimientos()))});
+                modelResumen.addRow(new Object[]{"Saldo Final:  " + formatoMoneda.format(e.suma(movimiento))});
+
+                String subTotalFinal = String.valueOf(formatoMoneda.format(e.suma(movimiento)));
+
+                lblSaldoFinal.setText(subTotalFinal);
+
             }
          }catch(Exception ex){
              System.err.println("Ocurrio un error " + ex.getMessage());
         }
     }//GEN-LAST:event_btnSeleccionarActionPerformed
+
+    private void cbxMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxMesActionPerformed
+        
+    }//GEN-LAST:event_cbxMesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -504,8 +555,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JLabel lblFinal;
     private javax.swing.JLabel lblNombreUsuario;
+    private javax.swing.JLabel lblSaldoFinal;
     private javax.swing.JTable tblCuenta;
     private javax.swing.JTable tblMovimiento;
     private javax.swing.JTable tblResumen;

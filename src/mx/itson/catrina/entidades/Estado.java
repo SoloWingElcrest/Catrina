@@ -2,17 +2,20 @@
 package mx.itson.catrina.entidades;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import java.util.ArrayList;
 import java.util.List;
+import mx.itson.catrina.enumeradores.Tipo;
 
 /**
  *
  * @author Xylan
  */
 public class Estado {
+
     private String cuenta;
     private String clabe;
     private String moneda;
-    private String mes;
     private Cliente cliente;
     private List<Movimiento> movimientos;
    
@@ -20,28 +23,39 @@ public class Estado {
         Estado catrina = new Estado();
         try{
             catrina = new Gson().fromJson(json, Estado.class);
-        }catch(Exception ex){
+        }catch(JsonSyntaxException ex){
             System.err.println("Ocurrio un error" + ex.getMessage());
         }
         return catrina;
      }
-      
-        public double suma(List<Movimiento> listaMovimientos){
-            double resultado = 0;
-            
-            for(Movimiento m : listaMovimientos){
-                    switch(m.getTipo()){
-                        
-                        case DEPOSITO : resultado += m.getCantidad();
-                        
-                        case RETIRO : resultado -= m.getCantidad();
-                        
-                        default : throw new AssertionError();
-                    }
-                }
-        return resultado;
-}
+ 
+     public double sumaDeposito(List<Movimiento> listDeposito){
+         double totalDeposito = 0;
+         
+         for(Movimiento mov : listDeposito){
+         if(mov.getTipo() == Tipo.DEPOSITO){
+           totalDeposito += mov.getCantidad();
+            }
+            }
+        return totalDeposito;
+        }
      
+     public double sumaRetiro(List<Movimiento> listaRetiro){
+          double totalRetiro = 0;
+            
+          for(Movimiento mov : listaRetiro){
+          if(mov.getTipo() == Tipo.RETIRO){
+            totalRetiro += mov.getCantidad();
+            }
+            }
+        return totalRetiro;
+        }
+    public double suma(Movimiento suma){
+        double resultado = sumaDeposito(movimientos) - sumaRetiro(movimientos);
+        return resultado;
+    }
+     
+  
     /**
      * @return the cuenta
      */
@@ -111,6 +125,5 @@ public class Estado {
     public void setMovimientos(List<Movimiento> movimientos) {
         this.movimientos = movimientos;
     }
-    
-
 }
+
